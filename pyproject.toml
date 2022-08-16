@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "moderator"
+version = "0.1.0"
+description = ""
+authors = ["Nikita Sychev <nsychev@teamteam.dev>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiogram = "^2.22.1"
+
+[tool.poetry.dev-dependencies]
+
+[tool.poetry.scripts]
+moderator = "moderator:main"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
