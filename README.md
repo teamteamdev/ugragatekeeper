@@ -7,4 +7,4 @@
 
 ## How to use
 
-Use attached pipenv or Nix package.
+Use attached poetry or Nix package.

@@ -46,7 +46,7 @@ in {
       script = ''
         ${pkgs.yaml-merge}/bin/yaml-merge ${moderator}/etc/moderator.yaml ${configFile} > /tmp/moderator.yaml
         ${pkgs.yaml-merge}/bin/yaml-merge /tmp/moderator.yaml "$CREDENTIALS_DIRECTORY/private_cfg" > /run/moderator/config.yaml
-        exec ${moderator}/bin/moderator --config /run/moderator/config.yaml --path /run/moderator/http.sock
+        exec ${moderator}/bin/moderator --config /run/moderator/config.yaml --unix /run/moderator/http.sock --domain ${cfg.domain}
       '';
     };
 
