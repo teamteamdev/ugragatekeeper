@@ -9,7 +9,7 @@ let
 
   configFile = configFmt.generate "moderator.yaml" cfg.config;
 
-  moderator = pkgs.callPackage "/root/moderator" {};
+  # moderator = pkgs.callPackage "/root/moderator" {};
 
 in {
   options = {
@@ -42,11 +42,14 @@ in {
         LoadCredential = "private_cfg:${cfg.privateConfigFile}";
         DynamicUser = true;
         RuntimeDirectory = "moderator";
+        RuntimedDirectoryMode = "0750";
+        Group = "nginx";
+        PrivateTmp = true;
       };
       script = ''
-        ${pkgs.yaml-merge}/bin/yaml-merge ${moderator}/etc/moderator.yaml ${configFile} > /tmp/moderator.yaml
+        ${pkgs.yaml-merge}/bin/yaml-merge ${pkgs.moderator}/etc/moderator.yaml ${configFile} > /tmp/moderator.yaml
         ${pkgs.yaml-merge}/bin/yaml-merge /tmp/moderator.yaml "$CREDENTIALS_DIRECTORY/private_cfg" > /run/moderator/config.yaml
-        exec ${moderator}/bin/moderator --config /run/moderator/config.yaml --unix /run/moderator/http.sock --domain ${cfg.domain}
+        exec ${pkgs.moderator}/bin/moderator --config /run/moderator/config.yaml --unix /run/moderator/http.sock --domain ${cfg.domain}
       '';
     };
 
