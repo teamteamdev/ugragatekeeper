@@ -12,7 +12,9 @@
       overlays.default = nixpkgs.lib.composeManyExtensions [
         poetry2nix.overlay
         (final: prev: {
-          moderator = prev.poetry2nix.mkPoetryApplication {
+          moderator = final.poetry2nix.mkPoetryApplication {
+            python = final.python310;
+
             projectDir = ./.;
 
             postInstall = ''
