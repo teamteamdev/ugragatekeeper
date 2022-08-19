@@ -2,7 +2,7 @@
 name = "ugragatekeeper"
 version = "1.0"
 description = "Bot for keeping order in your Telegram chat"
-authors = ["Nikita Sychev <nsychev@teamteam.dev>"]
+authors = ["Nikita Sychev <nsychev@teamteam.dev>", "Nikolay Amiantov <ab@fmap.me>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
