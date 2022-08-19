@@ -5,7 +5,7 @@ from ugragatekeeper import app, utils
 
 
 def construct_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Moderation bot for Telegram", add_help=False)
+    parser = argparse.ArgumentParser(description="Moderation bot for Telegram")
     parser.add_argument(
         "-c", "--config", required=True,
         help="path to YAML file"

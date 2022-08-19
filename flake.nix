@@ -14,12 +14,7 @@
         (final: prev: {
           ugragatekeeper = final.poetry2nix.mkPoetryApplication {
             python = final.python310;
-
             projectDir = ./.;
-
-            postInstall = ''
-              install -Dm644 config-clean.yaml $out/etc/ugragatekeeper.yaml
-            '';
           };
         })
       ];

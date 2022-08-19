@@ -3,23 +3,23 @@
 with lib;
 
 let
-  cfg = config.services.moderator;
+  cfg = config.services.ugragatekeeper;
 
   configFmt = pkgs.formats.yaml {};
 
-  configFile = configFmt.generate "moderator.yaml" cfg.config;
+  configFile = configFmt.generate "ugragatekeeper.yaml" cfg.config;
 
-  # moderator = pkgs.callPackage "/root/moderator" {};
+  # ugragatekeeper = pkgs.callPackage "/root/ugragatekeeper" {};
 
 in {
   options = {
-    services.moderator = {
-      enable = mkEnableOption "moderator";
+    services.ugragatekeeper = {
+      enable = mkEnableOption "ugragatekeeper";
 
       config = mkOption {
         type = configFmt.type;
         default = {};
-        description = "Configuration for moderator.";
+        description = "Configuration for ugragatekeeper.";
       };
 
       privateConfigFile = mkOption {
@@ -29,27 +29,27 @@ in {
 
       domain = mkOption {
         type = types.str;
-        description = "Domain to run moderator under.";
+        description = "Domain to run ugragatekeeper under.";
       };
     };
   };
 
   config = mkIf cfg.enable {
-    systemd.services."moderator" = {
-      description = "moderator bot";
+    systemd.services."ugragatekeeper" = {
+      description = "Bot for keeping order in your Telegram chat";
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         LoadCredential = "private_cfg:${cfg.privateConfigFile}";
         DynamicUser = true;
-        RuntimeDirectory = "moderator";
-        RuntimedDirectoryMode = "0750";
+        RuntimeDirectory = "ugragatekeeper";
+        RuntimeDirectoryMode = "0750";
         Group = "nginx";
         PrivateTmp = true;
       };
+      path = with pkgs; [ coreutils yaml-merge ugragatekeeper ];
       script = ''
-        ${pkgs.yaml-merge}/bin/yaml-merge ${pkgs.moderator}/etc/moderator.yaml ${configFile} > /tmp/moderator.yaml
-        ${pkgs.yaml-merge}/bin/yaml-merge /tmp/moderator.yaml "$CREDENTIALS_DIRECTORY/private_cfg" > /run/moderator/config.yaml
-        exec ${pkgs.moderator}/bin/moderator --config /run/moderator/config.yaml --unix /run/moderator/http.sock --domain ${cfg.domain}
+        yaml-merge ${configFile} $CREDENTIALS_DIRECTORY/private_cfg > /run/ugragatekeeper/config.yaml
+        exec ugragatekeeper --config /run/ugragatekeeper/config.yaml --unix /run/ugragatekeeper/http.sock --domain ${cfg.domain}
       '';
     };
 
@@ -59,7 +59,7 @@ in {
         virtualHosts."${cfg.domain}" = {
             forceSSL = true;
             enableACME = true;
-            locations."/".proxyPass = "http://unix:/run/moderator/http.sock";
+            locations."/".proxyPass = "http://unix:/run/ugragatekeeper/http.sock";
         };
     };
   };

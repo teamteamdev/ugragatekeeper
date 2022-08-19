@@ -1,1 +1,3 @@
 __pycache__/
+# NixOS package cache
+/result
