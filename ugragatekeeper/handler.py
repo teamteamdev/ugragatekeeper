@@ -67,7 +67,7 @@ class Handler:
             text=self.config["modules"]["process_join_requests"]["question"]
         )
 
-    def error(self, update: types.Update, exc: Exception) -> bool:
+    async def error(self, update: types.Update, exc: Exception) -> bool:
         logging.error("Error while processing update", exc_info=exc)
         return True
 
