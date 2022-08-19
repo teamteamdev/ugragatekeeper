@@ -22,8 +22,8 @@ class ChannelMessageFilter(BoundFilter):
 class RequestChatIDFilter(BoundFilter):
     key = "request_chat_id"
 
-    def __init__(self, chat_id: Optional[int] = None):
-        self.chat_id: Optional[int] = chat_id
+    def __init__(self, request_chat_id: Optional[int] = None):
+        self.chat_id: Optional[int] = request_chat_id
 
     async def check(self, obj: types.ChatJoinRequest):
         return self.chat_id == obj.chat.id
