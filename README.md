@@ -1,4 +1,4 @@
-# Moderator Bot
+# Ugra Gatekeeper Bot
 
 1. Removes any join and leave messages.
 2. Removes any channel-originated messages.

@@ -12,19 +12,19 @@
       overlays.default = nixpkgs.lib.composeManyExtensions [
         poetry2nix.overlay
         (final: prev: {
-          moderator = final.poetry2nix.mkPoetryApplication {
+          ugragatekeeper = final.poetry2nix.mkPoetryApplication {
             python = final.python310;
 
             projectDir = ./.;
 
             postInstall = ''
-              install -Dm644 config-clean.yaml $out/etc/moderator.yaml
+              install -Dm644 config-clean.yaml $out/etc/ugragatekeeper.yaml
             '';
           };
         })
       ];
 
-      nixosModules = [
+      nixosModules.ugragatekeeper.imports = [
         ({ pkgs, ... }: {
           nixpkgs.overlays = [ self.overlays.default ];
         })
@@ -38,17 +38,17 @@
         };
 
         app = flake-utils.lib.mkApp {
-          drv = pkgs.moderator;
+          drv = pkgs.ugragatekeeper;
         };
       in
       {
         packages = {
-          moderator = pkgs.moderator;
-          default = pkgs.moderator;
+          ugragatekeeper = pkgs.ugragatekeeper;
+          default = pkgs.ugragatekeeper;
         };
 
         apps = {
-          moderator = app;
+          ugragatekeeper = app;
           default = app;
         };
       }));

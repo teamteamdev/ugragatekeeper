@@ -5,7 +5,7 @@ import aiogram
 from aiogram import types
 from aiogram.dispatcher.webhook import BaseResponse, DeleteMessage, SendMessage
 
-from moderator import utils
+from ugragatekeeper import utils
 
 logger = logging.getLogger(__name__)
 

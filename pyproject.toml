@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "moderator"
-version = "0.1.0"
+name = "ugragatekeeper"
+version = "0.1.0-rc"
 description = ""
 authors = ["Nikita Sychev <nsychev@teamteam.dev>"]
 license = "MIT"
@@ -13,7 +13,7 @@ PyYAML = "^6.0"
 [tool.poetry.dev-dependencies]
 
 [tool.poetry.scripts]
-moderator = "moderator.cli:main"
+moderator = "ugragatekeeper.cli:main"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

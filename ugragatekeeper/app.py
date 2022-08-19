@@ -5,9 +5,9 @@ import aiogram
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.utils.executor import start_webhook
 
-from moderator import utils
-from moderator.filters import ChannelMessageFilter
-from moderator.handler import Handler
+from ugragatekeeper import utils
+from ugragatekeeper.filters import ChannelMessageFilter
+from ugragatekeeper.handler import Handler
 
 logger = logging.getLogger(__name__)
 

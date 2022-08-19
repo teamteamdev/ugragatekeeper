@@ -1,7 +1,7 @@
 import argparse
 import yaml
 
-from moderator import app, utils
+from ugragatekeeper import app, utils
 
 
 def construct_parser() -> argparse.ArgumentParser:
