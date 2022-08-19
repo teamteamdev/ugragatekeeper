@@ -1,4 +1,5 @@
 import logging
+from typing import Optional
 
 from aiogram import types
 from aiogram.dispatcher.filters import BoundFilter
@@ -16,3 +17,13 @@ class ChannelMessageFilter(BoundFilter):
         return (obj.sender_chat is not None
                 and obj.sender_chat.id != obj.chat.id
                 and obj.sender_chat.id not in self.allowed_channels)
+
+
+class RequestChatIDFilter(BoundFilter):
+    key = "request_chat_id"
+
+    def __init__(self, chat_id: Optional[int] = None):
+        self.chat_id: Optional[int] = chat_id
+
+    async def check(self, obj: types.ChatJoinRequest):
+        return self.chat_id == obj.chat.id

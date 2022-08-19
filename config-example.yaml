@@ -1,6 +1,6 @@
 bot:
   token: AAA
-  chat_id: -1001349667662
+  chat_id: -1001234567890
 modules:
   remove_joins: {}
   remove_leaves: {}
@@ -11,4 +11,4 @@ modules:
     correct_feedback: "Отлично! Чат открыт: @ugractf. Общайся вежливо, не пиши анонимно и не предлагай людям биткоины."
     incorrect_feedback: "Увы, ответ неверный :( Попробуй ещё раз"
   logging:
-    chat_id: 97631681
+    chat_id: 1234

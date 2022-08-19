@@ -6,7 +6,7 @@ from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.utils.executor import start_webhook
 
 from ugragatekeeper import utils
-from ugragatekeeper.filters import ChannelMessageFilter
+from ugragatekeeper.filters import ChannelMessageFilter, RequestChatIDFilter
 from ugragatekeeper.handler import Handler
 
 logger = logging.getLogger(__name__)
@@ -27,6 +27,7 @@ def run(domain: str, config: Any, network_options: dict) -> None:
     dispatcher = aiogram.Dispatcher(bot)
     dispatcher.middleware.setup(LoggingMiddleware())
     dispatcher.filters_factory.bind(ChannelMessageFilter, event_handlers=[dispatcher.message_handlers])
+    dispatcher.filters_factory.bind(RequestChatIDFilter, event_handlers=[dispatcher.chat_join_request_handlers])
 
     handler = Handler(dispatcher, config)
     handler.setup()

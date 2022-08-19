@@ -96,7 +96,7 @@ When someone tries to join the chat, bot will send question to them. If they ans
 * `modules.process_join_requests.answer` — Correct answer, str, required
 * `modules.process_join_requests.correct_feedback` — Feedback for correct answer, str, required
 * `modules.process_join_requests.incorrect_feedback` — Feedback for wrong answer, str, required
-* `modules.process_join_requests.approve_failed` — Feedback when approve failed, str, required
+* `modules.process_join_requests.approve_fail_feedback` — Feedback when approve failed, str, required
 
 Notes:
 1. Correct answer is checked the following way: `config.answer in message.text.lower()`
