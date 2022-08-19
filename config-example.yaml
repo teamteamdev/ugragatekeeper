@@ -10,5 +10,6 @@ modules:
     answer: "capture the flag"
     correct_feedback: "Отлично! Чат открыт: @ugractf. Общайся вежливо, не пиши анонимно и не предлагай людям биткоины."
     incorrect_feedback: "Увы, ответ неверный :( Попробуй ещё раз"
+    approve_fail_feedback: "Не удалось добавить в чат: возможно, твоя заявка уже была обработана."
   logging:
     chat_id: 1234
