@@ -4,20 +4,21 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
-    poetry2nix.url = "github:nix-community/poetry2nix";
   };
 
-  outputs = { self, nixpkgs, flake-utils, poetry2nix }:
+  outputs = { self, nixpkgs, flake-utils }:
     {
-      overlays.default = nixpkgs.lib.composeManyExtensions [
-        poetry2nix.overlay
-        (final: prev: {
-          ugragatekeeper = final.poetry2nix.mkPoetryApplication {
-            python = final.python310;
-            projectDir = ./.;
-          };
-        })
-      ];
+      overlays.default = final: prev: {
+        ugragatekeeper = final.poetry2nix.mkPoetryApplication {
+          python = final.python310;
+          projectDir = ./.;
+          overrides = final.poetry2nix.defaultPoetryOverrides.extend (final: prev: {
+            aiogram = prev.aiogram.overridePythonAttrs (old: {
+              buildInputs = (old.buildInputs or [ ]) ++ [ final.setuptools ];
+            });
+          });
+        };
+      };
 
       nixosModules.ugragatekeeper.imports = [
         ({ pkgs, ... }: {
