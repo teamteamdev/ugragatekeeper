@@ -20,7 +20,7 @@
         };
       };
 
-      nixosModules.ugragatekeeper.imports = [
+      nixosModules.default.imports = [
         ({ pkgs, ... }: {
           nixpkgs.overlays = [ self.overlays.default ];
         })
