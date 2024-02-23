@@ -39,6 +39,7 @@ in {
       description = "Bot for keeping order in your Telegram chat";
       wantedBy = [ "multi-user.target" ];
       after = [ "network-online.target" ];
+      wants = [ "network-online.target" ];
       serviceConfig = {
         LoadCredential = "private_cfg:${cfg.privateConfigFile}";
         DynamicUser = true;
