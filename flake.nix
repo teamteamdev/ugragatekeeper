@@ -17,7 +17,7 @@
     {
       overlays.default = final: prev: {
         ugragatekeeper = final.poetry2nix.mkPoetryApplication {
-          python = final.python310;
+          python = final.python311;
           projectDir = ./.;
           overrides = final.poetry2nix.defaultPoetryOverrides.extend (final: prev: {
             aiogram = prev.aiogram.overridePythonAttrs (old: {
