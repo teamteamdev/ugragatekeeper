@@ -6,7 +6,11 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = {
+    self,
+    nixpkgs,
+    flake-utils,
+  }:
     {
       overlays.default = final: prev: {
         ugragatekeeper = final.poetry2nix.mkPoetryApplication {
@@ -14,38 +18,36 @@
           projectDir = ./.;
           overrides = final.poetry2nix.defaultPoetryOverrides.extend (final: prev: {
             aiogram = prev.aiogram.overridePythonAttrs (old: {
-              buildInputs = (old.buildInputs or [ ]) ++ [ final.setuptools ];
+              buildInputs = (old.buildInputs or []) ++ [final.setuptools];
             });
           });
         };
       };
 
       nixosModules.default.imports = [
-        ({ pkgs, ... }: {
-          nixpkgs.overlays = [ self.overlays.default ];
-        })
-        (import ./module.nix)
+        (import ./module.nix self.packages)
       ];
-    } // (flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [ self.overlays.default ];
-        };
+    }
+    // (flake-utils.lib.eachDefaultSystem (system: let
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [self.overlays.default];
+      };
 
-        app = flake-utils.lib.mkApp {
-          drv = pkgs.ugragatekeeper;
-        };
-      in
-      {
-        packages = {
-          ugragatekeeper = pkgs.ugragatekeeper;
-          default = pkgs.ugragatekeeper;
-        };
+      app = flake-utils.lib.mkApp {
+        drv = pkgs.ugragatekeeper;
+      };
+    in {
+      packages = {
+        ugragatekeeper = pkgs.ugragatekeeper;
+        default = pkgs.ugragatekeeper;
+      };
 
-        apps = {
-          ugragatekeeper = app;
-          default = app;
-        };
-      }));
+      apps = {
+        ugragatekeeper = app;
+        default = app;
+      };
+
+      formatter = pkgs.alejandra;
+    }));
 }

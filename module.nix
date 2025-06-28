@@ -1,8 +1,10 @@
-{ pkgs, lib, config, ... }:
-
-with lib;
-
-let
+myPackages: {
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+with lib; let
   cfg = config.services.ugragatekeeper;
 
   configFmt = pkgs.formats.yaml {};
@@ -11,6 +13,7 @@ let
 
   # ugragatekeeper = pkgs.callPackage "/root/ugragatekeeper" {};
 
+  package = myPackages.${pkgs.system}.ugragatekeeper;
 in {
   options = {
     services.ugragatekeeper = {
@@ -37,9 +40,9 @@ in {
   config = mkIf cfg.enable {
     systemd.services."ugragatekeeper" = {
       description = "Bot for keeping order in your Telegram chat";
-      wantedBy = [ "multi-user.target" ];
-      after = [ "network-online.target" ];
-      wants = [ "network-online.target" ];
+      wantedBy = ["multi-user.target"];
+      after = ["network-online.target"];
+      wants = ["network-online.target"];
       serviceConfig = {
         LoadCredential = "private_cfg:${cfg.privateConfigFile}";
         DynamicUser = true;
@@ -48,7 +51,7 @@ in {
         Group = "nginx";
         PrivateTmp = true;
       };
-      path = with pkgs; [ coreutils yaml-merge ugragatekeeper ];
+      path = with pkgs; [coreutils yaml-merge package];
       script = ''
         yaml-merge ${configFile} $CREDENTIALS_DIRECTORY/private_cfg > /run/ugragatekeeper/config.yaml
         exec ugragatekeeper --config /run/ugragatekeeper/config.yaml --unix /run/ugragatekeeper/http.sock --domain ${cfg.domain}
@@ -56,13 +59,13 @@ in {
     };
 
     services.nginx = {
-        enable = true;
+      enable = true;
 
-        virtualHosts."${cfg.domain}" = {
-            forceSSL = true;
-            enableACME = true;
-            locations."/".proxyPass = "http://unix:/run/ugragatekeeper/http.sock";
-        };
+      virtualHosts."${cfg.domain}" = {
+        forceSSL = true;
+        enableACME = true;
+        locations."/".proxyPass = "http://unix:/run/ugragatekeeper/http.sock";
+      };
     };
   };
 }
