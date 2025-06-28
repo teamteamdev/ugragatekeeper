@@ -2,7 +2,7 @@
   description = "Bot for keeping order in your Telegram chat";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs";
+    nixpkgs.url = "github:abbradar/nixpkgs/ugractf";
     flake-utils.url = "github:numtide/flake-utils";
     poetry2nix.url = "github:nix-community/poetry2nix";
     poetry2nix.inputs.nixpkgs.follows = "nixpkgs";
