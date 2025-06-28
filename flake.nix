@@ -4,12 +4,15 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
+    poetry2nix.url = "github:nix-community/poetry2nix";
+    poetry2nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
     self,
     nixpkgs,
     flake-utils,
+    poetry2nix,
   }:
     {
       overlays.default = final: prev: {
@@ -31,7 +34,7 @@
     // (flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {
         inherit system;
-        overlays = [self.overlays.default];
+        overlays = [poetry2nix.overlays.default self.overlays.default];
       };
 
       app = flake-utils.lib.mkApp {
